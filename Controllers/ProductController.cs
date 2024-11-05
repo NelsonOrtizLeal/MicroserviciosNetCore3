@@ -34,5 +34,24 @@ namespace MicroserviciosNetCore3.Controllers
 
             return product;
         }
+
+        // Método para agregar un producto
+        [HttpPost]
+        public ActionResult Create(Product model)
+        {
+            // Validando de forma manual el model JSON que se recibe de la peticion
+            // Esta forma ya no es necesaria pero vale la pena saber que existe.
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            model.Id = Products.Count + 1;
+            Products.Add(model);
+
+            return CreatedAtAction(
+                "Get",
+                new { id = model.Id },
+                model
+                );
+        }
     }
 }
