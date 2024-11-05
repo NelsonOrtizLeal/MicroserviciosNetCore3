@@ -53,5 +53,34 @@ namespace MicroserviciosNetCore3.Controllers
                 model
                 );
         }
+
+        // Método para actualizar un producto
+        [HttpPut("{id}")]
+        public ActionResult Update(int Id, Product model)
+        {
+            var originProduct = Products.Find(producto => producto.Id == Id);
+
+            originProduct.Name = model.Name;
+            originProduct.Price = model.Price;
+            originProduct.Description = model.Description;
+
+            return NoContent();
+        }
+
+        // Método para eliminar un producto
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            // Forma mas rapida para eliminar un producto
+            //Products = Products.Where(producto => producto.Id != id).ToList();
+
+            var originProduct = Products.Find(producto => producto.Id == id);
+
+            if (originProduct == null)
+                return NotFound();
+
+            Products.Remove(originProduct);
+            return NoContent();
+        }
     }
 }
